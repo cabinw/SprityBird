@@ -60,6 +60,59 @@ static bool wasted = NO;
     if([self.delegate respondsToSelector:@selector(eventStart)]){
         [self.delegate eventStart];
     }
+    
+    // Recorder initialization
+    NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
+    
+    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithFloat: 44100.0],                 AVSampleRateKey,
+                              [NSNumber numberWithInt: kAudioFormatAppleLossless], AVFormatIDKey,
+                              [NSNumber numberWithInt: 1],                         AVNumberOfChannelsKey,
+                              [NSNumber numberWithInt: AVAudioQualityMax],         AVEncoderAudioQualityKey,
+                              nil];
+    
+    NSError *error;
+    
+    recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
+    
+    // iOS7 porting
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    [audioSession setActive:YES error:nil];
+    //===============
+    
+    if (recorder) {
+        [recorder prepareToRecord];
+        recorder.meteringEnabled = YES;
+        [recorder record];
+        levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.1 target: self selector: @selector(levelTimerCallback:)
+                                                    userInfo: nil repeats: YES];
+    }
+}
+
+- (void)levelTimerCallback:(NSTimer *)timer {
+	[recorder updateMeters];
+    lowPassResults = [recorder peakPowerForChannel:0];
+    double average = [recorder averagePowerForChannel:0];
+    
+    NSLog(@"Recorder value:%f",average);
+    
+    
+    if (average >= -9) {
+//        NSLog(@"---> Blowed: %f",lowPassResults);
+        if(wasted){
+            [self startGame];
+        }else{
+            if (!bird.physicsBody) {
+                [bird startPlaying];
+                if([self.delegate respondsToSelector:@selector(eventPlay)]){
+                    [self.delegate eventPlay];
+                }
+            }
+            [bird bounce];
+        }
+    }
+    
 }
 
 #pragma mark - Creations
