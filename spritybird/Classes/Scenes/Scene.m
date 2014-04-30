@@ -20,6 +20,9 @@
 #define OBSTACLE_MIN_HEIGHT 60
 #define OBSTACLE_INTERVAL_SPACE 130
 
+//int checkPoint = 190;
+//int continuousPeakThreshold = 1;
+
 @implementation Scene{
     SKScrollingNode * floor;
     SKScrollingNode * back;
@@ -61,59 +64,78 @@ static bool wasted = NO;
         [self.delegate eventStart];
     }
     
-    // Recorder initialization
-    NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(blow) name:@"blow" object:nil];
     
-    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithFloat: 44100.0],                 AVSampleRateKey,
-                              [NSNumber numberWithInt: kAudioFormatAppleLossless], AVFormatIDKey,
-                              [NSNumber numberWithInt: 1],                         AVNumberOfChannelsKey,
-                              [NSNumber numberWithInt: AVAudioQualityMax],         AVEncoderAudioQualityKey,
-                              nil];
-    
-    NSError *error;
-    
-    recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
-    
-    // iOS7 porting
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    [audioSession setActive:YES error:nil];
-    //===============
-    
-    if (recorder) {
-        [recorder prepareToRecord];
-        recorder.meteringEnabled = YES;
-        [recorder record];
-        levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.1 target: self selector: @selector(levelTimerCallback:)
-                                                    userInfo: nil repeats: YES];
-    }
+//    previousPreviousValue = 1;
+//    previousValue = 1;
+//    currentValue = 1;
+//    
+//    // Recorder initialization
+//    NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
+//    
+//    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              [NSNumber numberWithFloat: 44100.0],                 AVSampleRateKey,
+//                              [NSNumber numberWithInt: kAudioFormatAppleLossless], AVFormatIDKey,
+//                              [NSNumber numberWithInt: 1],                         AVNumberOfChannelsKey,
+//                              [NSNumber numberWithInt: AVAudioQualityMax],         AVEncoderAudioQualityKey,
+//                              nil];
+//    
+//    NSError *error;
+//    
+//    recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
+//    
+//    // iOS7 porting
+//    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+//    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+//    [audioSession setActive:YES error:nil];
+//    //===============
+//    
+//    if (recorder) {
+//        [recorder prepareToRecord];
+//        recorder.meteringEnabled = YES;
+//        [recorder record];
+//        levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.2 target: self selector: @selector(levelTimerCallback:)
+//                                                    userInfo: nil repeats: YES];
+//    }
 }
 
-- (void)levelTimerCallback:(NSTimer *)timer {
-	[recorder updateMeters];
-    lowPassResults = [recorder peakPowerForChannel:0];
-    double average = [recorder averagePowerForChannel:0];
-    
-    NSLog(@"Recorder value:%f",average);
-    
-    
-    if (average >= -9) {
-//        NSLog(@"---> Blowed: %f",lowPassResults);
-        if(wasted){
-            [self startGame];
-        }else{
-            if (!bird.physicsBody) {
-                [bird startPlaying];
-                if([self.delegate respondsToSelector:@selector(eventPlay)]){
-                    [self.delegate eventPlay];
-                }
-            }
-            [bird bounce];
-        }
-    }
-    
-}
+//- (void)levelTimerCallback:(NSTimer *)timer {
+//	[recorder updateMeters];
+//    lowPassResults = [recorder averagePowerForChannel:0];
+//
+//    if (previousPreviousValue == 1) {
+//        previousPreviousValue = lowPassResults;
+//    }else if (previousValue == 1){
+//        previousValue = lowPassResults;
+//    }else if (currentValue == 1){
+//        currentValue = lowPassResults;
+//    }else{
+//        previousPreviousValue = previousValue;
+//        previousValue = currentValue;
+//        currentValue = lowPassResults;
+//    }
+//    
+//    if ((previousValue - previousPreviousValue)>0 &&
+//        (currentValue-previousValue) <= 0 &&
+//        ((fabs(previousValue - previousPreviousValue) >= continuousPeakThreshold) ||
+//         (fabs(currentValue-previousValue) >= continuousPeakThreshold)) &&
+//        previousValue >= -9) {
+//        
+//        if(wasted){
+//            [self startGame];
+//        }else{
+//            if (!bird.physicsBody) {
+//                [bird startPlaying];
+//                if([self.delegate respondsToSelector:@selector(eventPlay)]){
+//                    [self.delegate eventPlay];
+//                }
+//            }
+//            [bird bounce];
+//        }
+//        
+//        NSLog(@"fly..");
+//    }
+//}
 
 #pragma mark - Creations
 
@@ -136,7 +158,7 @@ static bool wasted = NO;
     scoreLabel.fontSize = 500;
     scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), 100);
     scoreLabel.alpha = 0.2;
-    [self addChild:scoreLabel];
+//    [self addChild:scoreLabel];
 }
 
 
@@ -191,7 +213,18 @@ static bool wasted = NO;
     
 }
 
-#pragma mark - Interaction 
+
+-(void) blow{
+    if (!bird.physicsBody) {
+        [bird startPlaying];
+        if([self.delegate respondsToSelector:@selector(eventPlay)]){
+            [self.delegate eventPlay];
+        }
+    }
+    [bird bounce];
+}
+
+#pragma mark - Interaction
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -286,7 +319,7 @@ static bool wasted = NO;
         if(X(topPipe) + WIDTH(topPipe)/2 > bird.position.x &&
            X(topPipe) + WIDTH(topPipe)/2 < bird.position.x + FLOOR_SCROLLING_SPEED){
             self.score +=1;
-            scoreLabel.text = [NSString stringWithFormat:@"%lu",self.score];
+            scoreLabel.text = [NSString stringWithFormat:@"%lu",(long)self.score];
             if(self.score>=10){
                 scoreLabel.fontSize = 340;
                 scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), 120);

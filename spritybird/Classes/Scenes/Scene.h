@@ -16,9 +16,13 @@
 @end
 
 @interface Scene : SKScene<SKPhysicsContactDelegate>{
-    AVAudioRecorder *recorder;
-    NSTimer *levelTimer;
-    double lowPassResults;
+//    AVAudioRecorder *recorder;
+//    NSTimer *levelTimer;
+//    double lowPassResults;
+//    
+//    double previousPreviousValue;
+//    double previousValue;
+//    double currentValue;
 }
 
 @property (unsafe_unretained,nonatomic) id<SceneDelegate> delegate;
