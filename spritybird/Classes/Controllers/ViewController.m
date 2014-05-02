@@ -175,14 +175,10 @@ double blowPoint = -11;
     
     if ((previousValue - previousPreviousValue)>0 &&
         (currentValue-previousValue) <= 0 &&
-//        ((fabs(previousValue - previousPreviousValue) >= continuousPeakThreshold) ||
-//         (fabs(currentValue-previousValue) >= continuousPeakThreshold)) &&
         previousValue >= blowPoint) {
         
         [self drawCircleInPosition:CGPointMake(previousPoint.x, 80 - (60+previousValue)/60*80+20)];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"blow" object:nil userInfo:nil];
-        
-        NSLog(@"fly..");
     }
     
     double value = 80 - (60+lowPassResults)/60*80+20;
@@ -194,8 +190,6 @@ double blowPoint = -11;
         scrollView.contentSize = CGSizeMake(scrollView.contentSize.width+gap, scrollView.contentSize.height);
         [scrollView setContentOffset:CGPointMake(currentPoint.x-showWidth, 0) animated:NO];
     }
-    
-    NSLog(@"current point x:%f",currentPoint.x);
     
     previousPoint = currentPoint;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52184D8F1911994F00FF4C00 /* plot_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 52184D8E1911994F00FF4C00 /* plot_back.png */; };
 		5284FB3C19114262004CFAF2 /* floor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5284FB3B19114262004CFAF2 /* floor@2x.png */; };
 		5284FB8919115429004CFAF2 /* game_over@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5284FB8719115429004CFAF2 /* game_over@2x.png */; };
 		5284FB8A19115429004CFAF2 /* get_ready@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5284FB8819115429004CFAF2 /* get_ready@2x.png */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52184D8E1911994F00FF4C00 /* plot_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plot_back.png; sourceTree = "<group>"; };
 		5284FB3B19114262004CFAF2 /* floor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "floor@2x.png"; sourceTree = "<group>"; };
 		5284FB8719115429004CFAF2 /* game_over@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_over@2x.png"; sourceTree = "<group>"; };
 		5284FB8819115429004CFAF2 /* get_ready@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "get_ready@2x.png"; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				5284FB9919118DB6004CFAF2 /* medal_bronze@2x.png */,
+				52184D8E1911994F00FF4C00 /* plot_back.png */,
 				5284FB9A19118DB6004CFAF2 /* medal_gold@2x.png */,
 				5284FB9B19118DB6004CFAF2 /* medal_platinum@2x.png */,
 				5284FB9C19118DB6004CFAF2 /* medal_silver@2x.png */,
@@ -386,6 +389,7 @@
 				5284FB9419115A18004CFAF2 /* bird_1@2x.png in Resources */,
 				5284FB9D19118DB6004CFAF2 /* medal_bronze@2x.png in Resources */,
 				5284FBA019118DB6004CFAF2 /* medal_silver@2x.png in Resources */,
+				52184D8F1911994F00FF4C00 /* plot_back.png in Resources */,
 				5284FB9819115E31004CFAF2 /* medal_plate@2x.png in Resources */,
 				5284FB8919115429004CFAF2 /* game_over@2x.png in Resources */,
 				5284FB9519115A18004CFAF2 /* bird_2@2x.png in Resources */,

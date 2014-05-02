@@ -89,10 +89,14 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plot_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="HEn-9f-5xG">
+                                        <rect key="frame" x="0.0" y="460" width="320" height="108"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TFS-uP-YjY">
                                         <rect key="frame" x="0.0" y="460" width="320" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                     </scrollView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJz-Dd-LCe">
                                         <rect key="frame" x="265" y="539" width="50" height="21"/>
@@ -129,6 +133,7 @@
         <image name="get_ready.png" width="135" height="45"/>
         <image name="medal_bronze.png" width="78" height="78"/>
         <image name="medal_plate.png" width="227" height="117"/>
+        <image name="plot_back.png" width="320" height="108"/>
         <image name="taptap.png" width="136" height="59"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
